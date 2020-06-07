@@ -19,7 +19,6 @@ def init():
     # faceClassifier = cv2.CascadeClassifier(
     #     'opencv/haarcascade_frontalface_alt.xml')
     # faceClassifier = cv2.CascadeClassifier('opencv/lbpcascade_frontalface.xml')
-
     openEyesClassifier = cv2.CascadeClassifier(
         'opencv/haarcascade_eye_tree_eyeglasses.xml')
     leftEyeClassifier = cv2.CascadeClassifier(
@@ -54,6 +53,7 @@ def detect_and_display(model, face_encodings, person_names, faceClassifier, open
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
+        # Detect faces
         face_rects = faceClassifier.detectMultiScale(
             gray,
             scaleFactor=1.1,
@@ -61,13 +61,16 @@ def detect_and_display(model, face_encodings, person_names, faceClassifier, open
             minSize=(50, 50),
             flags=cv2.CASCADE_SCALE_IMAGE)
 
+        # for individual detected faces
         for (x, y, w, h) in face_rects:
             cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
             face = frame[y:y+h, x:x+w]
             gray_face = gray[y:y+h, x:x+w]
-
+            
+            # Encode the face into a 128-d embeddings vector
             face_encodings_in_image = api.get_face_encodings(face)
             if face_encodings_in_image:
+                # find matched person
                 match = api.find_match(
                     face_encodings, person_names, face_encodings_in_image[0])
 
@@ -141,7 +144,7 @@ def detect_and_display(model, face_encodings, person_names, faceClassifier, open
                     y = y - 15 if y - 15 > 15 else y + 15
                     cv2.putText(frame, match, (x, y), cv2.FONT_HERSHEY_SIMPLEX,0.75, (0, 255, 0), 2)
 
-
+        # Show frame
         cv2.imshow('Webcam', frame)
 
         k = cv2.waitKey(30) & 0xff

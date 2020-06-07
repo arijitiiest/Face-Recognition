@@ -8,6 +8,7 @@ from keras.models import model_from_json
 face_detector = dlib.get_frontal_face_detector()
 shape_predictor = dlib.shape_predictor('models/shape_predictor_68_face_landmarks.dat')
 face_recognition_model = dlib.face_recognition_model_v1('models/dlib_face_recognition_resnet_model_v1.dat')
+IMG_SIZE = 24   
 
 
 # Compute face encodings for a face
@@ -30,9 +31,9 @@ def find_match(known_faces, person_names, face):
     if min_value < 0.55:
         return person_names[min_index] + "! ({0:.2f})".format(min_value)
     if min_value < 0.58:
-        return person_names[min_index]+" ({0:.2f})".format(min_value)
+        return person_names[min_index] + " ({0:.2f})".format(min_value)
     if min_value < 0.65:
-        return person_names[min_index]+"?"+" ({0:.2f})".format(min_value)
+        return person_names[min_index] + "?" + " ({0:.2f})".format(min_value)
     return 'Not Found'
 
 
@@ -42,14 +43,13 @@ def load_eye_status_model():
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model = model_from_json(loaded_model_json)
-    loaded_model.load_weights("models/eye_status_model.h5")     # load weights
+    loaded_model.load_weights("models/eye_status_model.h5")    # load weights
     loaded_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return loaded_model
 
 
 # Predict eye status
 def predict_eye_status(image, model):
-    IMG_SIZE = 24   # IMAGE SIZE
     img = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     img2 = np.reshape(np.array(img), (1, IMG_SIZE, IMG_SIZE, 1))
     prediction = model.predict(img2)
