@@ -32,4 +32,3 @@ Build with [dlib's](http://dlib.net/) face-recognition model
   detection and face encoding models used in this project.
 - Thanks to [Adam Geitgey](https://github.com/ageitgey) whose [blog](https://medium.com/@ageitgey/machine-learning-is-fun-part-4-modern-face-recognition-with-deep-learning-c3cffc121d78) inspired me to make this project.
 - Thanks to [Jordon Van Eetveldt](https://github.com/Guarouba) for this [blog](https://towardsdatascience.com/real-time-face-liveness-detection-with-python-keras-and-opencv-c35dc70dafd3) post for the idea to detect liveliness of face.
-- Thanks to Shehzad Noor Taus Priyo for this [blog](https://towardsdatascience.com/facial-recognition-using-deep-learning-a74e9059a150) post
