@@ -59,5 +59,5 @@ def predict_eye_status(image, model):
         pred = 'open'
     else:
         pred = "idk"
-    print(pred, prediction)
+    # print(pred, prediction)
     return pred
